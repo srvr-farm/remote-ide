@@ -1,0 +1,19 @@
+[Unit]
+Description=Web Based IDE
+After=local-fs.target network.target docker.service
+Requires=network.target docker.service
+Wants=local-fs.target
+
+[Service]
+Restart=always
+RestartSec=10
+Type=simple
+TimeoutStopSec=120s
+User=mark
+WorkingDirectory=/home/mark/
+ExecStart=/opt/code-server/bin/start.sh
+ExecStop=/opt/code-server/bin/stop.sh
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
