@@ -1,8 +1,6 @@
 [Unit]
 Description=Web Based IDE
-After=local-fs.target network.target docker.service
-Requires=network.target docker.service
-Wants=local-fs.target
+After=local-fs.target network.target docker.service zfs.target home-mark.mount
 
 [Service]
 Restart=always
