@@ -22,6 +22,8 @@ docker network create code-server-net 2>/dev/null || true
 docker container rm -f code-server 2>/dev/null || true;
 test -d /home/${CODERNAME}/.config || sudo -u ${CODERNAME} mkdir -p /home/${CODERNAME}/.config
 test -d /home/${CODERNAME}/source || sudo -u ${CODERNAME} mkdir -p /home/${CODERNAME}/source
+eval "sleep 10 ; echo "[config]" ; cat /home/${CODERNAME}/.config/code-server/config.yaml ;" &
+wait_pid="$!"
 docker run --rm --name code-server \
 	--stop-timeout 60 \
 	--network code-server-net \
@@ -31,4 +33,4 @@ docker run --rm --name code-server \
 	-v /home/${CODERNAME}/source:/home/coder/project \
 	-e "DOCKER_USER=${CODERNAME}" \
 	${IMAGE} ;
-
+wait ${wait_pid}
